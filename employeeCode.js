@@ -29,7 +29,7 @@ const menu = () => {
           "Add Employee",
           "View Roles",
           "Add Department",
-          "Add role",
+          "Add Role",
           "View Departments",
         ],
       },
@@ -113,6 +113,50 @@ function role() {
   });
   return rolesArr;
 }
+
+//=========add role=========//
+const addRole = () => {
+  inquirer
+    .prompt([
+    {
+      name: "title",
+      type: "input",
+      message: "What is the title of the role?",
+    },
+    {
+      name: "salary",
+      type: "input",
+      message: "What is the salary of the role?",
+    },
+    {
+      name: "department",
+      type: "input",
+      message: "What is the department of the role?",
+    },
+    {
+      name: "department",
+      type: "input",
+      message: "What is the department id?",
+    }
+  ])
+      .then((answer) => {
+      console.log("Adding Role...");
+      let departmentId = viewDepartments().indexof(answer.department) + 1;
+      connection.query(
+        "INSERT INTO role SET ?",
+        {
+          role_id: roleId,
+          title: answer.title,
+          salary: answer.salary,
+          department_id: departmentId,
+        },
+        (err) => {
+          if (err) throw err;
+          console.table(answer);
+          menu();
+        });
+    });
+};
 
 //==========manager=============//
 let managerArr = [];
