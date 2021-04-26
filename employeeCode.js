@@ -41,10 +41,6 @@ const menu = () => {
           viewEmployees();
           break;
 
-        case "View Employees by Departments":
-          viewDepartment();
-          break;
-
         case "View Employees by Manager":
           viewManager();
           break;
@@ -68,6 +64,10 @@ const menu = () => {
         case "View Departments":
           viewDepartments();
           break;
+
+        case 'Exit':
+            console.log("Thank you for using the employee tracker!");
+            connection.end();
       }
     });
 };
@@ -116,46 +116,56 @@ function role() {
 
 //=========add role=========//
 const addRole = () => {
-  inquirer
-    .prompt([
-    {
-      name: "title",
-      type: "input",
-      message: "What is the title of the role?",
-    },
-    {
-      name: "salary",
-      type: "input",
-      message: "What is the salary of the role?",
-    },
-    {
-      name: "department",
-      type: "input",
-      message: "What is the department of the role?",
-    },
-    {
-      name: "department",
-      type: "input",
-      message: "What is the department id?",
-    }
-  ])
-      .then((answer) => {
-      console.log("Adding Role...");
-      let departmentId = viewDepartments().indexof(answer.department) + 1;
-      connection.query(
-        "INSERT INTO role SET ?",
+  connection.query("SELECT * FROM role", (err, res) => {
+    if (err) throw err;
+    inquirer
+      .prompt([
         {
-          role_id: roleId,
+          type: "input",
+          name: "title",
+          message: "Please enter the role's title.",
+          validate: (data) => {
+            if (data !== "") {
+              return true;
+            }
+            return "Please enter a name.";
+          },
+        },
+        {
+          type: "input",
+          name: "salary",
+          message: "Please enter the role's salary.",
+          validate: (data) => {
+            if (data !== "") {
+              return true;
+            }
+            return "Please enter a name.";
+          },
+        },
+        {
+          type: "list",
+          name: "department",
+          message: "Please choose what department the role is from.",
+          choices: getDepartment(),
+        },
+      ])
+      .then(function (answer) {
+        let deptId = getDepartment().indexOf(answer.department) + 1;
+        let newRole = {
           title: answer.title,
           salary: answer.salary,
-          department_id: departmentId,
-        },
-        (err) => {
-          if (err) throw err;
-          console.table(answer);
-          menu();
-        });
-    });
+          department_id: deptId,
+        };
+        connection.query(
+          "INSERT INTO role SET ?",
+          newRole,
+          function (err, data) {
+            if (err) throw err;
+            viewRoles();
+          }
+        );
+      });
+  });
 };
 
 //==========manager=============//
@@ -166,12 +176,53 @@ function manager() {
     function (err, res) {
       if (err) throw err;
       for (let i = 0; i < res.length; i++) {
-        managerArr.push(res[i].first_name);
+        managerArr.push(res[i].first_name + " " + res[i].last_name);
       }
     }
   );
   return managerArr;
 }
+
+//=========getDepartment=========//
+let departmentArray = [];
+const getDepartment = () => {
+    connection.query('SELECT * FROM department', function (err, res) {
+        if (err) throw err
+        for (let i = 0; i< res.length; i++) {
+            departmentArray.push(res[i].name);
+        }
+    })
+    return departmentArray;
+}
+
+//========= add department=========//
+const addDepartment = () => {
+    connection.query('SELECT * FROM department',(err, res) => {
+        if (err) throw err;
+        inquirer.prompt([
+         {
+             type: "input",
+             name: "deptname",
+             message: "What is the name of the department you are adding?",
+             validate: data => {
+                 if (data !==""){
+                     return true
+                 }
+                 return "Pleaser enter a valid name."
+             } 
+         },   
+        ]).then(function (answer){
+            let newDept = { name: answer.deptname }
+            connection.query("INSERT INTO department SET ?", newDept, function (err, data) {
+                if (err) throw err;
+                viewDepartments();
+            });
+        });
+    });
+};
+
+
+
 
 //=========add employees and prompts==========//
 const addEmployees = () => {

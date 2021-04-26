@@ -12,5 +12,5 @@ VALUES ("Patrick", "Moore",1,NULL),("Adam", "Alcantara",2, NULL),("Arecio","Cant
 INSERT INTO employee (first_name, role_id, manager_id)
 VALUES ("John","Marston",3, 1),("Arthur","Morgan",2, 2),("Josiah","Trelawney",2, 3),("Dutch","VanDerLinde",4, 4),("Paul","Harris",2, 5);
 
-
+ 
 
