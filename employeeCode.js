@@ -476,37 +476,37 @@ const deleteEmployee = () => {
 
 
 //========= delete role=========//
-const deleteRole = async () => {
-  let res = await connection.query("SELECT * FROM role");
-     let deleteRoleArr = res.map((role) => {
-     return {
-      name: `${employees.first_name} ${employees.last_name}`,
-      value: employees.id,
-    };
-  });
-  console.log(deleteRoleArr);
-  return deleteEmpArr;
-};
+// const deleteRole = async () => {
+//   let res = await connection.query("SELECT * FROM role");
+//      let deleteRoleArr = res.map((role) => {
+//      return {
+//       name: ,
+//       value: employees.id,
+//     };
+//   });
+//   console.log(deleteRoleArr);
+//   return deleteRoleArr;
+// };
 
-const deleteEmployee = () => {
-  inquirer
-  .prompt([
-    {
-    type: "list",
-    name: "deleteEmp",
-    message: "Which employee would you like to remove?",
-    choices: () => deleteEmp(),
-    },
-  ])
-  .then((answer) => {
-    connection.query(" DELETE FROM employee WHERE id = ?",
-    [answer.deleteEmp],
-    (err, data) => {
-      if (err) throw err;
-      viewEmployees();
-    })
-  })
-}
+// const deleteEmployee = () => {
+//   inquirer
+//   .prompt([
+//     {
+//     type: "list",
+//     name: "deleteEmp",
+//     message: "Which employee would you like to remove?",
+//     choices: () => deleteEmp(),
+//     },
+//   ])
+//   .then((answer) => {
+//     connection.query(" DELETE FROM employee WHERE id = ?",
+//     [answer.deleteEmp],
+//     (err, data) => {
+//       if (err) throw err;
+//       viewEmployees();
+//     })
+//   })
+// }
 
 //======= view by the manager=========//
 const viewManager = async () => {
