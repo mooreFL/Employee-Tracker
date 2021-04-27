@@ -2,7 +2,24 @@
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
   ## Description 
-A node, inquirer and MySQL project that enables the user to manage a companies employees.
+A node, inquirer and MySQL project that enables the user to manage a companies employees via the terminal.
+
+  ## ScreenShots
+  Menu-
+<img src= "assets\initial terminal ss.PNG">
+
+  View Employees-
+<img src= "assets\view employees ss.PNG">
+
+  View Roles-
+<img src= "assets\view roles ss.PNG">
+
+  Add Department-
+<img src= "assets\add dept ss.PNG">
+
+
+
+
   ## Table of Contents 
   * [Installation](#installation) 
   * [Usage](#Usage)

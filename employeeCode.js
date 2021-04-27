@@ -36,7 +36,6 @@ const menu = () => {
           "View Departments",
           "Update Employee Role",
           "Delete Department",
-          "Delete Role",
           "Delete Employee",
           "Update Employee Managers",
           "Exit",
@@ -80,10 +79,6 @@ const menu = () => {
 
         case "Delete Department":
           deleteDepartments();
-          break;
-
-        case "Delete Role":
-          deleteRole();
           break;
 
         case "Delete Employee":
