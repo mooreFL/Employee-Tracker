@@ -36,6 +36,8 @@ const menu = () => {
           "View Departments",
           "Update Employee Role",
           "Delete Department",
+          "Delete Role",
+          "Delete Employee",
           "Update Employee Managers",
           "Exit",
         ],
@@ -78,6 +80,14 @@ const menu = () => {
 
         case "Delete Department":
           deleteDepartments();
+          break;
+
+        case "Delete Role":
+          deleteRole();
+          break;
+
+        case "Delete Employee":
+          deleteEmployee();
           break;
 
         case "Update Employee Managers":
@@ -430,6 +440,73 @@ const deleteDepartments = () => {
       );
     });
 };
+
+//=========delete employee=========//
+const deleteEmp = async () => {
+  let res = await connection.query("SELECT * FROM employee");
+     let deleteEmpArr = res.map((employees) => {
+     return {
+      name: `${employees.first_name} ${employees.last_name}`,
+      value: employees.id,
+    };
+  });
+  console.log(deleteEmpArr);
+  return deleteEmpArr;
+};
+
+const deleteEmployee = () => {
+  inquirer
+  .prompt([
+    {
+    type: "list",
+    name: "deleteEmp",
+    message: "Which employee would you like to remove?",
+    choices: () => deleteEmp(),
+    },
+  ])
+  .then((answer) => {
+    connection.query(" DELETE FROM employee WHERE id = ?",
+    [answer.deleteEmp],
+    (err, data) => {
+      if (err) throw err;
+      viewEmployees();
+    })
+  })
+}
+
+
+//========= delete role=========//
+const deleteRole = async () => {
+  let res = await connection.query("SELECT * FROM role");
+     let deleteRoleArr = res.map((role) => {
+     return {
+      name: `${employees.first_name} ${employees.last_name}`,
+      value: employees.id,
+    };
+  });
+  console.log(deleteRoleArr);
+  return deleteEmpArr;
+};
+
+const deleteEmployee = () => {
+  inquirer
+  .prompt([
+    {
+    type: "list",
+    name: "deleteEmp",
+    message: "Which employee would you like to remove?",
+    choices: () => deleteEmp(),
+    },
+  ])
+  .then((answer) => {
+    connection.query(" DELETE FROM employee WHERE id = ?",
+    [answer.deleteEmp],
+    (err, data) => {
+      if (err) throw err;
+      viewEmployees();
+    })
+  })
+}
 
 //======= view by the manager=========//
 const viewManager = async () => {
